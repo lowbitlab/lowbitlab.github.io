@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lowbit Lab - PS1-style low-poly 3D assets</title>
+<meta name="description" content="Lowbit Lab is a small studio making PS1-style low-poly 3D environment packs for indie games: horror locations, retro interiors, towns and nature.">
+<style>
+  :root { --bg:#0d0e10; --panel:#16171a; --text:#e8e8e8; --muted:#a3a3a3; --accent:#c6ff00; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:"Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size:18px; line-height:1.6; }
+  .wrap { max-width:1100px; margin:0 auto; padding:0 24px; }
+  header { padding:64px 0 32px; border-bottom:4px solid var(--accent); }
+  header .tag { color:var(--accent); font-weight:700; letter-spacing:.12em; font-size:14px; text-transform:uppercase; }
+  h1 { font-size:56px; line-height:1.05; margin:10px 0 16px; letter-spacing:-.01em; }
+  header p { max-width:720px; color:var(--text); font-size:20px; margin:0; }
+  h2 { font-size:30px; margin:56px 0 18px; }
+  .hero { margin-top:32px; }
+  .hero img { width:100%; display:block; border-radius:4px; }
+  .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+  .grid figure { margin:0; background:var(--panel); border-radius:4px; overflow:hidden; }
+  .grid img { width:100%; display:block; aspect-ratio:630/500; object-fit:cover; }
+  .grid figcaption { padding:10px 14px 14px; font-size:16px; color:var(--muted); }
+  .grid figcaption b { color:var(--text); display:block; font-size:17px; }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  ul { padding-left:20px; margin:0; }
+  li { margin:6px 0; }
+  .note { color:var(--muted); }
+  footer { margin:72px 0 0; padding:28px 0 48px; border-top:1px solid #2a2b2f; color:var(--muted); font-size:15px; }
+  a { color:var(--accent); }
+  @media (max-width:800px) { h1 { font-size:40px; } .grid { grid-template-columns:1fr 1fr; } .two { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="tag">Lowbit Lab</div>
+    <h1>PS1-style low-poly 3D assets for indie games</h1>
+    <p>We are a small studio building environment packs with the look of late-90s console games: one small texture atlas per pack and low polygon counts, ready for Unity, Godot and Unreal.</p>
+  </header>
+
+  <div class="hero"><img src="img/hotel_corridor.jpg" alt="Retro hotel corridor built from our PS1-style models"></div>
+
+  <h2>What we make</h2>
+  <div class="grid">
+    <figure><img src="img/hospital.jpg" alt="Abandoned hospital pack"><figcaption><b>Abandoned Hospital</b>Corridors, wards, operating rooms and a morgue</figcaption></figure>
+    <figure><img src="img/space_station.jpg" alt="Space station interior pack"><figcaption><b>Space Station Interior</b>Modular corridors, airlocks, cryo bays and cargo holds</figcaption></figure>
+    <figure><img src="img/apartment.jpg" alt="Apartment block pack"><figcaption><b>Apartment Block</b>Corridors, stairwells, laundry room, kitchens and living rooms</figcaption></figure>
+    <figure><img src="img/japanese_street.jpg" alt="Japanese street pack"><figcaption><b>Japanese Street</b>Street modules and a convenience store, inside and out</figcaption></figure>
+    <figure><img src="img/amusement_park.jpg" alt="Abandoned amusement park pack"><figcaption><b>Abandoned Amusement Park</b>Rides, coaster modules, booths and tents</figcaption></figure>
+    <figure><img src="img/cabin.jpg" alt="Cabin in the woods pack"><figcaption><b>Cabin in the Woods</b>A log cabin, outbuildings and a ritual clearing</figcaption></figure>
+  </div>
+
+  <h2>How our packs are built</h2>
+  <div class="two">
+    <ul>
+      <li>One model per file in FBX, GLB and OBJ, plus a Blender scene</li>
+      <li>One small texture atlas per pack, point filtering for the PS1 look</li>
+      <li>Modular pieces on a 4 m grid, so rooms and corridors snap together</li>
+      <li>Low triangle counts</li>
+    </ul>
+    <div><img src="img/hotel_room.jpg" alt="Hotel guest room built from our models" style="width:100%;border-radius:4px;display:block"></div>
+  </div>
+
+  <h2>Where to find them</h2>
+  <p>Our Unity-ready packs are distributed through the Unity Asset Store. Some packs are also shown on our <a href="https://sketchfab.com/LowbitLab">Sketchfab profile</a>.</p>
+  <p class="note">Questions, custom requests or support: <a href="mailto:admoapp.contact+lowbit-support@gmail.com">admoapp.contact+lowbit-support@gmail.com</a></p>
+
+  <footer>Lowbit Lab. Original artwork; no third-party logos or trademarks.</footer>
+</div>
+</body>
+</html>
+
