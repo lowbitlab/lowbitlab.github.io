@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PS1-Style Filter Online: turn any photo or 3D model into a retro 32-bit image</title>
+<meta name="description" content="Free PS1-style filter in your browser. Drop a photo or a .glb 3D model and get a low-resolution, dithered, 15-bit retro image to download. Nothing is uploaded.">
+<link rel="canonical" href="https://lowbitlab.github.io/ps1ify/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lowbit Lab">
+<meta property="og:title" content="PS1-Style Filter Online: turn any photo or 3D model into a retro 32-bit image">
+<meta property="og:description" content="Drop a photo or a .glb model, get a low-res, dithered, 15-bit retro image. Free, runs in your browser, nothing is uploaded.">
+<meta property="og:url" content="https://lowbitlab.github.io/ps1ify/">
+<meta property="og:image" content="https://lowbitlab.github.io/ps1ify/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A smooth landscape next to the same picture turned into a low-resolution, dithered retro image">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"PS1-Style Filter Online","url":"https://lowbitlab.github.io/ps1ify/","applicationCategory":"MultimediaApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Lowbit Lab","url":"https://lowbitlab.itch.io"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What is the PS1 look?","acceptedAnswer":{"@type":"Answer","text":"It is the picture of a 1990s 32-bit console game: low resolution (around 320 x 240), few colours with visible dither, blocky nearest-filtered textures, fog and a soft CRT image. This tool recreates the resolution, colour depth, dither, scanlines and fog. It is an approximation, not an emulator."}},
+{"@type":"Question","name":"What is dithering?","acceptedAnswer":{"@type":"Answer","text":"Dithering mixes pixels of two nearby colours in a fixed pattern, so a smooth gradient still looks smooth with few colours instead of showing hard bands. This tool uses a 4 x 4 Bayer pattern, a classic ordered dither. The slider sets how strong it is."}},
+{"@type":"Question","name":"What is 15-bit colour?","acceptedAnswer":{"@type":"Answer","text":"5 bits per channel: 32 levels of red, 32 of green and 32 of blue, 32,768 colours in total. The 64 and 16 colour presets pick a palette that fits your image."}},
+{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes. No account, no limit. The small credit in the corner is on by default and you can switch it off."}},
+{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Photos and 3D models are processed by JavaScript inside your browser tab and never leave your device. The page has no analytics and sets no cookies. The only files it loads are its own, and the 3D viewer code when you open the 3D tab."}}
+]}
+</script>
+</head>
+<body>
+<noscript><p class="noscript">This tool needs JavaScript. It runs entirely in your browser; nothing is uploaded.</p></noscript>
+<header class="top">
+  <div class="wrap">
+    <h1>PS1-Style Filter Online: turn any photo or 3D model into a retro 32-bit image</h1>
+    <p class="lead">Drop a photo or a .glb model. Get a low-resolution, dithered, 15-bit picture to download and share. It runs in your browser and nothing is uploaded.</p>
+  </div>
+</header>
+
+<main>
+<section class="wrap tool" aria-label="Filter">
+  <div class="tabs" role="tablist" aria-label="Input type">
+    <button role="tab" id="tab-photo" aria-selected="true" aria-controls="panel-input" data-mode="photo">Photo</button>
+    <button role="tab" id="tab-3d" aria-selected="false" aria-controls="panel-input" data-mode="3d">3D model (.glb)</button>
+  </div>
+
+  <div class="layout" id="panel-input" role="tabpanel" aria-labelledby="tab-photo">
+    <div class="left">
+      <div class="source-row" id="row-photo">
+        <label class="btn primary" for="file-photo">Choose a photo</label>
+        <input type="file" id="file-photo" accept="image/*" class="visually-hidden">
+        <button type="button" class="btn" id="sample-photo">Use the sample</button>
+        <span class="hint">or drop an image on the picture, or paste it</span>
+      </div>
+      <div class="source-row" id="row-3d" hidden>
+        <label class="btn primary" for="file-3d">Choose a .glb file</label>
+        <input type="file" id="file-3d" accept=".glb,model/gltf-binary" class="visually-hidden">
+        <label class="inline">Sample model
+          <select id="sample-model">
+            <option value="models/minecart_ore.glb">Ore cart</option>
+            <option value="models/tunnel_corner_4m.glb">Tunnel corner</option>
+            <option value="models/crystal_cluster_blue.glb">Crystal cluster</option>
+          </select>
+        </label>
+        <span class="hint">Drag to turn, scroll or pinch to zoom. To scroll the page, drag outside the picture.</span>
+      </div>
+
+      <div class="stage" id="stage" aria-label="Result preview">
+        <div class="frame" id="frame">
+          <canvas id="before" aria-label="Original picture"></canvas>
+          <canvas id="out" aria-label="Filtered result" tabindex="-1"></canvas>
+          <div class="split" id="split" role="slider" tabindex="0" aria-label="Before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span></span></div>
+          <p class="msg" id="msg" role="status" hidden></p>
+        </div>
+      </div>
+      <p class="info" id="info" aria-live="polite">&nbsp;</p>
+
+      <div class="actions">
+        <button type="button" class="btn primary" id="download">Download PNG</button>
+        <button type="button" class="btn" id="copy">Copy image</button>
+        <button type="button" class="btn" id="share" hidden>Share</button>
+        <label class="inline">Size
+          <select id="scale">
+            <option value="1">Low resolution</option>
+            <option value="2">x2</option>
+            <option value="4" selected>x4</option>
+          </select>
+        </label>
+      </div>
+      <p class="store">Need ready-made PS1-style 3D models? <a href="https://lowbitlab.itch.io" rel="noopener">See Lowbit Lab packs</a></p>
+    </div>
+
+    <form class="right" id="controls" onsubmit="return false" aria-label="Settings">
+      <h2 class="vh">Settings</h2>
+      <div class="field">
+        <label for="res">Resolution</label>
+        <select id="res">
+          <option value="240p">240p</option>
+          <option value="320x240" selected>320 x 240</option>
+          <option value="480p">480p</option>
+        </select>
+      </div>
+      <div class="field" id="f-aspect" hidden>
+        <label for="aspect">Frame</label>
+        <select id="aspect">
+          <option value="4:3" selected>4:3</option>
+          <option value="16:9">16:9</option>
+          <option value="1:1">1:1</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="mode">Colours</label>
+        <select id="mode">
+          <option value="15bit" selected>PS1 15-bit (32,768 colours)</option>
+          <option value="64">64 colours</option>
+          <option value="16">16 colours</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="dither">Dither (Bayer 4x4) <output for="dither" id="o-dither">100</output></label>
+        <input type="range" id="dither" min="0" max="100" value="100">
+      </div>
+      <div class="field">
+        <label for="blur">Soft blur <output for="blur" id="o-blur">0</output></label>
+        <input type="range" id="blur" min="0" max="100" value="0">
+      </div>
+      <div class="field">
+        <label for="scan">CRT scanlines <output for="scan" id="o-scan">0</output></label>
+        <input type="range" id="scan" min="0" max="100" value="0">
+        <p class="note" id="scan-note" hidden>Scanlines show from x2 upward.</p>
+      </div>
+      <div class="field">
+        <label for="fog" id="l-fog">Fog (haze) <output for="fog" id="o-fog">0</output></label>
+        <input type="range" id="fog" min="0" max="100" value="0">
+        <div class="fogcolor" id="fogcolor-row"><label for="fogcolor">Fog colour</label><input type="color" id="fogcolor" value="#9aa5b8"></div>
+      </div>
+      <div class="field">
+        <label for="vignette">Vignette <output for="vignette" id="o-vignette">0</output></label>
+        <input type="range" id="vignette" min="0" max="100" value="0">
+      </div>
+      <div class="field" id="f-bg" hidden>
+        <label for="bg">Background colour</label>
+        <input type="color" id="bg" value="#20222c">
+      </div>
+      <div class="field check">
+        <input type="checkbox" id="wm" checked>
+        <label for="wm">Small credit in the corner</label>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="wrap prose" id="how">
+  <h2>How to use it</h2>
+  <ol>
+    <li>Choose a photo, or open the 3D tab and choose a .glb file. You can also drop it on the picture.</li>
+    <li>Pick a resolution and a colour setting. The preview updates as you move the sliders. For photos, drag the line to compare with the original.</li>
+    <li>Press Download PNG. The Size menu gives the exact low-resolution pixels, or the same picture enlarged x2 or x4 without smoothing, which stays sharp when you post it.</li>
+  </ol>
+  <p>Dither is the checkered texture that hides colour banding, soft blur and scanlines imitate a TV screen, and fog and vignette darken or haze the picture. All of them can stay at zero.</p>
+</section>
+
+<section class="wrap prose" id="faq">
+  <h2>Questions</h2>
+  <h3>What is the PS1 look?</h3>
+  <p>It is the picture of a 1990s 32-bit console game: low resolution (around 320 x 240), few colours with visible dither, blocky nearest-filtered textures, fog and a soft CRT image. This tool recreates the resolution, colour depth, dither, scanlines and fog. It is an approximation, not an emulator.</p>
+  <h3>Does it warp or wobble the picture like old hardware did?</h3>
+  <p>No, on purpose. Textures are drawn straight and nothing in the 3D view snaps or jitters, so the result stays clean and readable.</p>
+  <h3>What is dithering?</h3>
+  <p>Dithering mixes pixels of two nearby colours in a fixed pattern, so a smooth gradient still looks smooth with few colours instead of showing hard bands. This tool uses a 4 x 4 Bayer pattern, a classic ordered dither. The slider sets how strong it is.</p>
+  <h3>What is 15-bit colour?</h3>
+  <p>5 bits per channel: 32 levels of red, 32 of green and 32 of blue, 32,768 colours in total. The 64 and 16 colour presets pick a palette that fits your image.</p>
+  <h3>Is it free?</h3>
+  <p>Yes. No account, no limit. The small credit in the corner is on by default and you can switch it off.</p>
+  <h3>Are my images uploaded?</h3>
+  <p>No. Photos and 3D models are processed by JavaScript inside your browser tab and never leave your device. The page has no analytics and sets no cookies. The only files it loads are its own, and the 3D viewer code when you open the 3D tab.</p>
+  <h3>Which files work?</h3>
+  <p>Photos: whatever your browser can open (JPG, PNG, WebP, GIF). 3D: a single binary glTF file (.glb); files compressed with Draco, meshopt or KTX2 are not supported. Textures are drawn without smoothing. Large photos are shrunk in your browser, which can take a second.</p>
+  <h3>Where do the sample models come from?</h3>
+  <p>They are three small low-poly models made by Lowbit Lab, in the style of our packs.</p>
+</section>
+</main>
+
+<footer class="wrap foot">
+  <p>Made by Lowbit Lab. No tracking, no cookies.</p>
+</footer>
+
+<script src="js/core.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

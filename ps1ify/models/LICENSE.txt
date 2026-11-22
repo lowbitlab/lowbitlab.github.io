@@ -1,0 +1,15 @@
+LOWBIT LAB ASSET LICENSE (PSX Abandoned Mine & Caverns)
+
+You may:
+  - use these assets in any number of personal or commercial projects
+    (games, game mods, prototypes, videos, renders, trailers);
+  - modify the models and textures for use in your projects;
+  - ship them inside compiled or packaged projects.
+
+You may not:
+  - sell, give away, re-upload or redistribute the assets themselves, modified or not,
+    as standalone files or as part of another asset pack, model library or template;
+  - claim the assets as your own original work in an asset store.
+
+Credit is appreciated ("Assets by Lowbit Lab") but not required.
+The assets are provided as-is, without warranty.
