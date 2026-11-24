@@ -1,0 +1,58 @@
+/* Plain, readable page. One sans-serif font, large text, no badges or pills. */
+:root {
+  --bg: #ffffff;
+  --ink: #1b1f27;
+  --muted: #4a5260;
+  --line: #c9cfda;
+  --link: #0a4fb3;
+  --warn-bg: #fff6d6;
+  --warn-line: #8a6a00;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171c;
+    --ink: #eceff4;
+    --muted: #aab2c0;
+    --line: #3a414d;
+    --link: #8fb8ff;
+    --warn-bg: #2b2410;
+    --warn-line: #d9b44a;
+  }
+}
+* { box-sizing: border-box; }
+html { font-size: 112.5%; }            /* 18 px base */
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.6;
+}
+main { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+h1 { font-size: 2.1rem; line-height: 1.2; margin: 1rem 0 0.75rem; }
+h2 { font-size: 1.6rem; line-height: 1.25; margin: 3rem 0 1rem; padding-top: 1rem; border-top: 2px solid var(--line); }
+h3 { font-size: 1.3rem; line-height: 1.3; margin: 0 0 0.5rem; }
+p, li, dd, dt { font-size: 1rem; }
+a { color: var(--link); text-underline-offset: 0.15em; }
+a:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+.lead { font-size: 1.15rem; color: var(--muted); }
+.warning { background: var(--warn-bg); border: 2px solid var(--warn-line); padding: 0.25rem 1rem; margin: 1.5rem 0; }
+nav ul { padding-left: 1.2rem; }
+nav h2 { margin-top: 1.5rem; }
+.entry { padding: 1.25rem 0; border-bottom: 1px solid var(--line); }
+.entry:last-child { border-bottom: 0; }
+.rank { color: var(--muted); font-weight: 400; }
+.by { color: var(--muted); font-weight: 400; font-size: 1rem; }
+.verdict { margin: 0 0 0.75rem; }
+dl { margin: 0; display: grid; grid-template-columns: 11rem 1fr; gap: 0.35rem 1rem; }
+dt { color: var(--muted); }
+dd { margin: 0; overflow-wrap: anywhere; }
+.also { margin: 0.75rem 0 0; color: var(--muted); }
+.none { color: var(--muted); }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 2px solid var(--line); color: var(--muted); }
+@media (max-width: 36rem) {
+  html { font-size: 106.25%; }
+  dl { grid-template-columns: 1fr; gap: 0; }
+  dd { margin-bottom: 0.6rem; }
+}
